@@ -129,7 +129,7 @@ Man kombiniert verschiedene Sensoren,Die aufgenommenen Daten erganzen sich und e
 **3 Weg zur Weltmodell**
 -  Vorabmodellierung der Umgebung (schon vorhanden, als Datei abgelegt)
 - Selbstandige Konstruktion(robot selbst erkundt)
-- Interaktive Erkundung (Teach-in) (Menschen sie beibring)
+- Interaktive Erkundung (Teach-in) (Menschen es sie beibring)
 
 **3 Abstraktionsstufen von Formen von Weltmodellen**
 
@@ -143,9 +143,29 @@ der Umgebung und der in ihr enthaltenen Objekte) -> lokalen Wegeplanung.
 - 1.Messdatenaggregation
    -  Aus Messdaten werden
 Merkmale, wie Kanten von Hindernissen etc. extrahiert.
-- Geometrische Weltmodellierung:
+- 2.Geometrische Weltmodellierung:
   - Integration verschiedener Situationen bzw.
 Aufnahmen unterschiedlicher Sensortypen ->Erstellen einer geometrischen Karte
-- Topologische Weltmodellierung
-  - Identifikation von Objekten und Raumstrukturen->
+- 3.Topologische Weltmodellierung
+  - Identifikation von Objekten und Raumstrukturen ->
    topologischen Karte
+
+
+**Messdatenaggregation**\
+Beim Messen von Entfernungen durch den Roboter erhalt man eine Reihe von Messpunkten.Aus ihnen werden nun  Merkmale extrahiert\
+Linien Tracking
+
+**Geometrische Weltmodellierung**\
+Wird aus den abstrahierten Messdaten – z. B.Linien – eine geometrische Weltkarte aufgebaut.\
+indem man lokale Aufnahmen verschiedener Sensortypen aus unterschiedlichen Positionen fusioniert. \
+Aus ihnen wird dann ein globales Weltmodell aufgebaut bzw. die Daten werden in ein bestehendes Weltmodell integriert.\
+
+**Laßt sich mj mit einem mi ∈ W zusammenfassen oder ist es ein neues Merkmal, das zu W hinzuzufugen ist?**
+- Eine mogliche Auspragung des Line Matching:
+  - Linienumrahmung miteinader uberlappt Wird
+  - Steigungswinkeldifferenz und maximaler Abstand
+  - Fusionieren zweier Linien 
+
+**Topologische Weltmodellierung**\
+Hierbei werden die Geometriedaten einer lokal begrenzten\
+Umgebung mit bestimmter Objekte verglichen und bei Ubereinstimmung entsprechend identifiziert
