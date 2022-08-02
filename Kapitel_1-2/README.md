@@ -127,9 +127,9 @@ Man kombiniert verschiedene Sensoren,Die aufgenommenen Daten erganzen sich und e
 ### 2.3 Umweltkarten und Kartenaufbau
 \
 **3 Weg zur Weltmodell**
--  Vorabmodellierung der Umgebung (schon vorhanden, als Datei abgelegt)
-- Selbstandige Konstruktion(robot selbst erkundt)
-- Interaktive Erkundung (Teach-in) (Menschen es sie beibring)
+- Vorabmodellierung der Umgebung
+- Selbstandige Konstruktion
+- Interaktive Erkundung (Teach-in)
 
 **3 Abstraktionsstufen von Formen von Weltmodellen**
 
@@ -141,10 +141,11 @@ der Umgebung und der in ihr enthaltenen Objekte) -> lokalen Wegeplanung.
 **Die selbstandige Konstruktion eines Weltmodells**
 
 - 1.Messdatenaggregation
-   -  Aus Messdaten werden
+   -  Zusammenfassung der Sensordaten zu einer
+lokalen Aufnahme.Aus Aufnahme werden
 Merkmale, wie Kanten von Hindernissen etc. extrahiert.
 - 2.Geometrische Weltmodellierung:
-  - Integration verschiedener Situationen bzw.
+  - Integration verschiedener
 Aufnahmen unterschiedlicher Sensortypen ->Erstellen einer geometrischen Karte
 - 3.Topologische Weltmodellierung
   - Identifikation von Objekten und Raumstrukturen ->
@@ -153,7 +154,7 @@ Aufnahmen unterschiedlicher Sensortypen ->Erstellen einer geometrischen Karte
 
 **Messdatenaggregation**\
 Beim Messen von Entfernungen durch den Roboter erhalt man eine Reihe von Messpunkten.Aus ihnen werden nun  Merkmale extrahiert\
-Linien Tracking
+z.b Linien Tracking
 
 **Geometrische Weltmodellierung**\
 Wird aus den abstrahierten Messdaten – z. B.Linien – eine geometrische Weltkarte aufgebaut.\
@@ -161,11 +162,80 @@ indem man lokale Aufnahmen verschiedener Sensortypen aus unterschiedlichen Posit
 Aus ihnen wird dann ein globales Weltmodell aufgebaut bzw. die Daten werden in ein bestehendes Weltmodell integriert.\
 
 **Laßt sich mj mit einem mi ∈ W zusammenfassen oder ist es ein neues Merkmal, das zu W hinzuzufugen ist?**
-- Eine mogliche Auspragung des Line Matching:
-  - Linienumrahmung miteinader uberlappt Wird
-  - Steigungswinkeldifferenz und maximaler Abstand
-  - Fusionieren zweier Linien 
+- Line Matching:
+  - Linienumrahmung miteinader uberlappt Wird ->Fusionieren
+  - Steigungswinkeldifferenz und maximaler Abstand(Kriterien)
+  - Fusionieren zweier Linien(Methode)
 
 **Topologische Weltmodellierung**\
 Hierbei werden die Geometriedaten einer lokal begrenzten\
-Umgebung mit bestimmter Objekte verglichen und bei Ubereinstimmung entsprechend identifiziert
+Umgebung mit bestimmter Objekte verglichen und  identifiziert\
+Die globale Wegplanung erfolgt anhand der topologischen Karten\
+Die konkrete Wegplanung erfolgt anhand des geometrischen Modells
+
+### 2.4 Bahnplanung
+
+**Bahnplanungsverfahren**
+- Roadmap-Verfahren
+- Cell-decomposition-Verfahren
+- Potential-Verfahren
+- Verfahren fur Flachenabdeckungsaufgaben
+
+
+1.Visibility-Graph: (Roadmap)
+- A, B und den Polyederecken von H als Knoten
+- allen Verbindungen der Knoten untereinander
+
+das Gebiet aller Hindernisse H \
+der Startpunkt A \
+der Zielpunkt B
+
+2.Tiefensuche:(Roadmap)\
+Such nach einem Weg zwischen A und B:
+- markieren die Nachbarknoten von A und so weiter bis zur Ende.Dann von A anfangen,ein Weg zu finden
+
+Wenn ein Weg nicht gefunden ist,geht auf dem bisherig weg zuruck bis man wieder einen neuen Nachbarknoten erreichen kann.
+
+3.Voronoi-Diagramm:(Roadmap)\
+Es basiert auf einer polygonale Karte.es ist Wegnetz,auf dessen weiss man den maximalen Freiraum und Abstand zu alle Verhinissen.Es kann Kollision gut vermeiden.\
+
+Definition:
+- x ist die Punkt von befahrbaren Freiraum.
+- clearance(x)ist Abstand zur Hindernisse
+- near (x)ist Menge der Punkte auf den Rand,deren Abstand zu x gleich wie clearance(x)
+- voronoi(F),wie viel Element in near(x)
+
+polygonale Hindernisse ist durch Gerade und Parabelteilen zusammengesetzt.\
+Voronoi-Diagramm zwischen zwei Gerade-> Gerade
+Voronoi-Diagramm zwischen eine Ecke und eine Gerade->
+Parabel
+
+4.Exact-cell-decompositionVerfahren
+Befahrbare Freiraum wird in Zellen unterteilt.\
+Als Weg zwischen Start A und Ziel B werden die Mittelpunkten der Zellenkanten verbunden.
+
+5.Approximate-cell-decomposition-Verfahren
+ahlich wie Exact-cell-decompositionVerfahren,aber werden Quadrate verwendet
+
+6.Potential-Verfahren
+Umgebung ist Potentialfeld,Zielpunkt ist die globalem Minium.wir versuchen,den Roboter von seinem Startort x in das Minimum zu ziehen.\
+Es gibt zwei Kraft:
+- eine Kraft,die den Roboter in den Zielpunkt zieht
+- eine Kraft,die den Roboter von Hindernissen abstosst.
+
+Gradientensuche:\
+Der Roboter bewegt vom Startpunkt in kleinen Schritten entlang des Gradienten.
+Nachteil:es kann in localen Minium bleiben kann.
+
+7.Algorithmus von Henrich und Graf(Verfahren fur Flachenabdeckungsaufgaben)
+
+Die Umgebung ist polygonal und druch ein rechteckiges Gitternetz uberzogen.Der Roboter kann 8 Nachbarfeld erreichen.
+
+Regeln zur Bahnplanung(nicht befahrbare und schon befahrene Zellen als "kritische Zellen“):
+- Fahre nur in Zellen, die nicht kritisch sind.
+- Fahre nach rechts.
+- Fahre geradeaus, wenn rechts nicht moglich ist
+- Fahre nach links, wenn rechts und geradeaus nicht moglich ist
+- keine Weg gefunden? mittels des Potentialfeld-Verfahrens werden nachst nicht kritische Zellen bestimmt
+
+Die zentrale Element ist Speicher,in dem festgehalten wird, welche Zellen kritisch sind und welche nicht.
