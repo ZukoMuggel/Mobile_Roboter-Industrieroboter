@@ -64,3 +64,30 @@ Drehwinkel ϕ proportionale Spannung
 
 Industrieroboter ist eine interdisziplinare Aufgabe:
 Mechnik,Antribestechnik,Messtechnik,Rechnertechnik,Regelungstechnik
+
+
+### 3.2 -3.3
+**Matrix**
+
+### 3.4 Regelung von Industrierobotern
+
+Wir versuche ,Robotergreifer entlang der Trajektorie abzufahren.\
+
+1.Steuerung mit inversem Modell\
+Nachteil: Storung kann nicht ausgeregelt werden\
+
+2.Achsregelung ohne Vorsteuerung\
+Kaskadenregler:
+- Positionsregler -- P
+- Drehzahlregler -- PI
+- Stromsregler -- PI
+Schlecht Bahnverfolgung:nichtlineare Verkoppelung der einzelnen Achsen
+
+3.Achsregelung mit Vorsteuerung uber inverses Modell\
+
+4.Entkopplung + Linearisierung\
+
+Aber selten genutzt:
+- nicht direkt einsetzt werden
+- Modellierungsgenauigkeit verhindert eine optimale Entkopplung
+-  hohe Online-Rechenaufwand ber Bewertung des inverse Modells fuhrt zu Verzogung.
